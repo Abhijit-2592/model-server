@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package ModelServer;
+
+
+message Dim {
+    int32 size = 1;
+};
+
+enum DType {
+    FLOAT32 = 0;
+    FLOAT16 = 1;
+    FLOAT64 = 2;
+    INT32 = 3;
+    UINT8 = 4;
+    STRING = 5;
+    // python type object is treated as STRING
+    OBJECT = 6;
+};
+
+message TensorProto {
+    repeated Dim tensor_shape = 1;
+    repeated bytes string_val = 2;
+    bytes tensor_content = 3;
+    DType dtype = 4;
+    // Optional name of the TensorProto
+    string name = 5;
+};
