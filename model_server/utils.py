@@ -18,9 +18,10 @@ def create_tensor_proto(array, shape=None, dtype=None, name=None):
         A TensorProto containing the given array
 
     Note:
-        Use dtype = "object" if the numpy array contains strings.
-        dtype "string" and "object" are treated as same.
-        "string" is converted to python "object". This is because,
+        - python strings will be encoded to python bytes.
+        - Use dtype = "object" if the numpy array contains strings.
+        - dtype "string" and "object" are treated as same.
+        - "string" is converted to python "object". This is because,
         numpy handles variable length strings in this way
     """
     if not isinstance(array, np.ndarray):
@@ -65,9 +66,10 @@ def create_array_from_proto(tensor_proto):
         numpy array
 
     Note:
-        Use dtype = "object" if the numpy array contains strings.
-        dtype "string" and "object" are treated as same.
-        "string" is converted to python "object". This is because,
+        - python strings will be encoded to python bytes.
+        - Use dtype = "object" if the numpy array contains strings.
+        - dtype "string" and "object" are treated as same.
+        - "string" is converted to python "object". This is because,
         numpy handles variable length strings in this way
     """
     if not isinstance(tensor_proto, tensor_pb2.TensorProto):
