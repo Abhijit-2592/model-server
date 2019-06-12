@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package ModelServer;
+
+import "model_server/protos/tensor.proto";
+
+
+message PredictRequest {
+
+  // Optional name.
+  string name = 1;
+  // Input tensors.
+  map<string, TensorProto> inputs = 2;
+}
+
+// Response for PredictRequest on successful run.
+message PredictResponse {
+  // Optional name.
+  string name = 1;
+  // Output tensors.
+  map<string, TensorProto> outputs = 2;
+}

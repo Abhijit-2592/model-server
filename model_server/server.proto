@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package ModelServer;
+
+import "model_server/apis/predict.proto";
+
+service ModelServer {
+    rpc GetPredictions(PredictRequest) returns (PredictResponse) {}
+}

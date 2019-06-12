@@ -104,4 +104,4 @@ venv.bak/
 .mypy_cache/
 
 # compiled protos
-model_server/protos/*_pb2.py
+*_pb2.py
