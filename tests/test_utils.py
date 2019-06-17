@@ -18,6 +18,11 @@ def test_creation_and_extraction_of_tensor_proto():
     recreated_array = utils.create_array_from_proto(tensor_proto=my_proto)
     assert np.array_equal(recreated_array, np.array([e.encode() for e in array]))
 
+    array = np.array(["Test1".encode("utf-8"), "test2".encode("utf-8"), "random stuffs".encode("utf-8"), "This is a string".encode("utf-8")], dtype=object)
+    my_proto = utils.create_tensor_proto(array)
+    recreated_array = utils.create_array_from_proto(tensor_proto=my_proto)
+    assert np.array_equal(recreated_array, array)
+
     array = np.array(["Test1", "test2", "random stuffs", "This is a string"], dtype=object)
     my_proto = utils.create_tensor_proto(array, shape=(2, 2))
     recreated_array = utils.create_array_from_proto(tensor_proto=my_proto)

@@ -49,7 +49,16 @@ def create_tensor_proto(array, shape=None, dtype=None, name=None):
     if dtype not in ["string", "object"]:
         tensor_proto.tensor_content = array.tostring()
     else:
-        tensor_proto.string_val.extend([string_val.encode() for string_val in array.flatten()])
+        string_list = []
+        for string_val in array.flatten():
+            if isinstance(string_val, str):
+                string_list.append(string_val.encode("utf-8"))
+            elif isinstance(string_val, bytes):
+                string_list.append(string_val)
+            else:
+                raise TypeError("string elements in array must be of type str or bytes but got {}".format(type(string_val)))
+
+        tensor_proto.string_val.extend(string_list)
     if name:
         tensor_proto.name = str(name)
     tensor_proto.dtype = dtype_dict[dtype]
