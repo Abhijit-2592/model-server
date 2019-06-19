@@ -1,2 +1,4 @@
 # model-server
-gRPC server hosting Deep learning models
+
+## Work in Progress
+gRPC server for hosting Deep Learning models trained on any framework.
