@@ -5,7 +5,7 @@ from .utils import create_tensor_proto, create_array_from_proto
 from .utils import create_predict_response
 
 
-class Servable(object):
+class Servable(abc.ABC):
     def __init__(self):
         pass
 

@@ -23,7 +23,7 @@ def _get_custom_servable_class(custom_servable_path):
             class_name = obj.name
             if issubclass(namespace[class_name], Servable):
                 return namespace[class_name]
-    raise ValueError("No Custom Servable Class found!")
+    raise ValueError("No custom servable class found! or The custom servable class does not inherit from Servable")
 
 
 if __name__ == "__main__":
