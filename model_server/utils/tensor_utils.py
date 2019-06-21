@@ -1,5 +1,5 @@
 import numpy as np
-from model_server.protos import tensor_pb2
+from ..protos import tensor_pb2
 
 
 def create_tensor_proto(array, shape=None, dtype=None, name=None):

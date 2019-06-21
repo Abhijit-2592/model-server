@@ -1,5 +1,5 @@
-from model_server.apis import predict_pb2
-from model_server.protos import tensor_pb2
+from ..apis import predict_pb2
+from ..protos import tensor_pb2
 
 
 def create_predict_request(input_tensorproto_dict, name=None):
