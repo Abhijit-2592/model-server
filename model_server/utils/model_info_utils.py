@@ -2,7 +2,24 @@ from ..protos import model_info_pb2
 
 
 def create_model_info_proto(list_of_model_info_dict):
-    model_info_proto = model_info_pb2.ModelsInfo()
+    """Creates a ModelInfo proto
+
+    Arguments:
+        list_of_model_info_dict (list/tuple): A list containing model_info_dicts
+
+    ```
+    model_info_dict should contain the following keys only:
+    * name: model name as string
+    * version: version as string
+    * status: status string
+    * misc: string with miscellaneous info
+    ```
+
+    Returns:
+        ModelInfo proto
+
+    """
+    model_info_proto = model_info_pb2.ModelInfo()
     for model_info_dict in list_of_model_info_dict:
         model_info = model_info_proto.info.add()
         model_info.name = str(model_info_dict.get("name", ""))
@@ -13,6 +30,22 @@ def create_model_info_proto(list_of_model_info_dict):
 
 
 def decode_model_info_proto(model_info_proto):
+    """Decodes the model_info_proto created by create_model_info_proto
+
+    Arguments:
+        model_info_proto (ModelInfo proto): model_info_proto created by create_model_info_proto
+
+    Returns:
+        list_of_model_info_dict (list): A list containing model_info_dicts
+
+    ```
+    model_info_dict contains the following keys:
+    * name: model name as string
+    * version: version as string
+    * status: status string
+    * misc: string with miscellaneous info
+    ```
+    """
     list_of_model_info_dict = []
     for model_info in model_info_proto.info:
         model_info_dict = {}

@@ -11,6 +11,6 @@ message Info {
     string misc = 4;
 };
 
-message ModelsInfo {
+message ModelInfo {
     repeated Info info = 1;
 }

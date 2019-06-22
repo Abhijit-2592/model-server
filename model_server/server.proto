@@ -7,5 +7,5 @@ import "model_server/protos/model_info.proto";
 
 service ModelServer {
     rpc GetPredictions(PredictRequest) returns (PredictResponse) {}
-    rpc GetModelsInfo(ModelsInfo) returns (ModelsInfo) {}
+    rpc GetModelInfo(ModelInfo) returns (ModelInfo) {}
 }

@@ -50,7 +50,7 @@ class MultipleModels(Servable):
             raise ValueError("Unknown model {}".format(input_array_dict["name"]))
         return {"prediction_scores": predictions}
 
-    def model_status(self, list_of_model_info_dict):
+    def get_model_info(self, list_of_model_info_dict):
         if len(list_of_model_info_dict) == 0:
             return [{"name": "InceptionV3", "version": 1, "status": "up", "misc": "This is a test"},
                     {"name": "VGG16", "version": 1, "status": "up", "misc": "This is a test"}

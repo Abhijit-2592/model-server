@@ -19,5 +19,5 @@ class InceptionV3Classifier(Servable):
         predictions = self.model.predict(image_tensor)
         return {"prediction_scores": predictions}
 
-    def model_status(self, list_of_model_info_dict):
+    def get_model_info(self, list_of_model_info_dict):
         return [{"name": "InceptionV3", "version": 1, "status": "up", "misc": "This is an example"}]
