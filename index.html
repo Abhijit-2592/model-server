@@ -57,6 +57,8 @@
     
         <ul>
         
+            <li><a class="toctree-l3" href="#installation">Installation</a></li>
+        
             <li><a class="toctree-l3" href="#why-model-server">Why Model-Server?</a></li>
         
             <li><a class="toctree-l3" href="#salient-features">Salient Features</a></li>
@@ -137,7 +139,23 @@
             <div class="section">
               
                 <h1 id="model-server">Model-Server</h1>
-<p>A Pure <code>python-3</code> based flexible gRPC server for hosting Deep Learning, Machine Learning models trained on any framework!</p>
+<p>A Pure <code>python-3</code> based flexible gRPC server for hosting Deep Learning, Machine Learning models trained on any framework! The documentation can be found here https://abhijit-2592.github.io/model-server/</p>
+<h2 id="installation">Installation</h2>
+<h3 id="method-1">Method 1:</h3>
+<p>Installing from <a href="https://pypi.org/project/model-server">python pip</a></p>
+<p><code>pip3 install model-server</code></p>
+<h3 id="method-2">Method 2:</h3>
+<p>Creating wheel from github</p>
+<ol>
+<li>clone the repository</li>
+<li>Run <code>bash create_pip_wheel_and_upload.sh</code>. This will prompt for userid and password. You can <code>ctrl-c</code> this</li>
+<li>Then install the created wheel</li>
+</ol>
+<h3 id="method-3">Method 3:</h3>
+<p>No installation. Using the source code directly.</p>
+<p>If this is the case, you need to compile the protobufs. Run <code>bash compile_protobufs.sh</code>. Then add the project root to your <code>$PYTHONPATH</code>.</p>
+<h3 id="note">Note:</h3>
+<p>Method 2 and 3 requires <code>libprotoc&gt;=3.6.0</code></p>
 <h2 id="why-model-server">Why Model-Server?</h2>
 <p>Taking deep learning models to production at scale is not a very straight forward process. If you are using Tensorflow then you have <a href="https://www.tensorflow.org/tfx/guide/serving">Tensorflow Serving</a>. But, if you are using other frameworks like <a href="https://pytorch.org/">PyTorch</a>, <a href="https://mxnet.apache.org/">MXNet</a>, <a href="https://scikit-learn.org/stable/">scikit-learn</a> etc. Taking your model to production is not very straight forward (Flask, Django and other ReST frameworks). Ideally you should be able to extend Tensorflow Serving to support models from other frameworks also but, this is extremly cumbersome! Thus, to bridge this gap we have <a href="https://abhijit-2592.github.io/model-server/">Model-Server</a>: A high performance framework neutral serving solution! <strong>The idea is:</strong> if you are able to train your model in <code>python</code> you should be  able to deploy at scale using pure <code>python</code></p>
 <h2 id="salient-features">Salient Features</h2>
@@ -314,5 +332,5 @@ response = stub.GetModelInfo(model_info_proto)
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-06-22 11:35:39
+Build Date UTC : 2019-06-22 13:00:38
 -->
