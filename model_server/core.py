@@ -72,13 +72,17 @@ class Servable(abc.ABC):
         Arguments:
             list_of_model_info_dict (list/tuple): A list containing model_info_dicts
 
-        ```
-        model_info_dict contains the following keys:
-        * name: model name as string
-        * version: version as string
-        * status: status string
-        * misc: string with miscellaneous info
-        ```
+        Note:
+            model_info_dict contains the following keys:
+
+            ```python
+            {
+                "name": "model name as string"
+                "version": "version as string"
+                "status": "status string"
+                "misc": "string with miscellaneous info"
+            }
+            ```
 
         Returns:
             list_of_model_info_dict (dict): containing the model and server info. This is similar to the function input
