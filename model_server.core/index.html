@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Model server.core - Model Server Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Model server.core";
+    var mkdocs_page_input_path = "model_server.core.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Model Server Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Docs</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href=".">Core</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Utils Docs</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../model_server.utils.model_info_utils">Model Info Utils</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../model_server.utils.prediction_utils">Prediction Utils</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../model_server.utils.tensor_utils">tensor Utils</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Model Server Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Model server.core</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/Abhijit-2592/model-server/edit/master/docs/model_server.core.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><strong>Source:</strong> <a href="https://github.com/Abhijit-2592/model-server/tree/master/model_server/core.py#L0">model_server/core.py#L0</a></p>
+<hr />
+<h2 id="servable"><a href="https://github.com/Abhijit-2592/model-server/tree/master/model_server/core.py#L9">Servable</a></h2>
+<p>Helper class that provides a standard way to create an ABC using
+inheritance.</p>
+<hr />
+<h3 id="servable__init__"><a href="https://github.com/Abhijit-2592/model-server/tree/master/model_server/core.py#L10">Servable.<code>__init__</code></a></h3>
+<pre><code class="python">__init__(self)
+</code></pre>
+
+<p>Abstract base class for custom servables. All custom servables must inherit from this.
+All custom servables inheriting from this must implement the following methods:</p>
+<pre><code class="python">predict(self, input_array_dict)
+get_model_info(self, list_of_model_info_dict)
+</code></pre>
+
+<hr />
+<h3 id="servableget_model_info"><a href="https://github.com/Abhijit-2592/model-server/tree/master/model_server/core.py#L68">Servable.get_model_info</a></h3>
+<pre><code class="python">get_model_info(self, list_of_model_info_dict)
+</code></pre>
+
+<p>Abstract method which is responsible for the call GetModelInfo</p>
+<p><em>Arguments:</em></p>
+<ul>
+<li><strong>list_of_model_info_dict</strong> (list/tuple):  A list containing model_info_dicts</li>
+</ul>
+<p><em>Note:</em></p>
+<p>model_info_dict contains the following keys:</p>
+<pre><code class="python">{
+  &quot;name&quot;: &quot;model name as string&quot;
+  &quot;version&quot;: &quot;version as string&quot;
+  &quot;status&quot;: &quot;status string&quot;
+  &quot;misc&quot;: &quot;string with miscellaneous info&quot;
+}
+</code></pre>
+
+<p><em>Returns:</em></p>
+<ul>
+<li><strong>list_of_model_info_dict</strong> (dict):  containing the model and server info. This is similar to the function input</li>
+</ul>
+<hr />
+<h3 id="servablepredict"><a href="https://github.com/Abhijit-2592/model-server/tree/master/model_server/core.py#L37">Servable.predict</a></h3>
+<pre><code class="python">predict(self, input_array_dict)
+</code></pre>
+
+<p>Abstract method where the model prediction logic lives.
+This method is responsible for the gRPC call GetPredictions().
+All custom servables must define this method.</p>
+<p><em>Arguments:</em></p>
+<ul>
+<li><strong>input_array_dict</strong> (dict):  The PredictionRequest proto decoded as a python dictionary.</li>
+</ul>
+<pre><code class="python"># example
+input_array_dict = {
+  &quot;input_tensor_name1&quot;: numpy array,
+  &quot;input_tensor_name2&quot;: numpy array
+  }
+</code></pre>
+
+<p><em>Returns:</em></p>
+<p>A python dictionary with key (typically output name) and value as numpy array of predictions</p>
+<pre><code class="python"># example
+output = {
+  &quot;output_tensor_name1&quot;: numpy array,
+  &quot;output_tensor_name2&quot;: numpy array
+  }
+</code></pre>
+
+<hr />
+<h2 id="modelserverservicer"><a href="https://github.com/Abhijit-2592/model-server/tree/master/model_server/core.py#L93">ModelServerServicer</a></h2>
+<hr />
+<h3 id="modelserverservicer__init__"><a href="https://github.com/Abhijit-2592/model-server/tree/master/model_server/core.py#L94">ModelServerServicer.<code>__init__</code></a></h3>
+<pre><code class="python">__init__(self, custom_servable_object)
+</code></pre>
+
+<p>gRPC Model Server Services. This is where the RPC methods are defined.</p>
+<p><em>Arguments:</em></p>
+<ul>
+<li><strong>custom_servable_object</strong>:  custom servable classe's instance</li>
+</ul>
+<hr />
+<h3 id="modelserverservicergetmodelinfo"><a href="https://github.com/Abhijit-2592/model-server/tree/master/model_server/core.py#L116">ModelServerServicer.GetModelInfo</a></h3>
+<pre><code class="python">GetModelInfo(self, request, context)
+</code></pre>
+
+<p>Entrypoint for GetModelInfo gRPC call. Uses the get_model_info method defined in custom servable</p>
+<p><em>Arguments:</em></p>
+<ul>
+<li><strong>request</strong> (protobuf):  gRPC request containing input ModelInfo protobuf</li>
+<li><strong>context</strong> (protobuf):  gRPC context object</li>
+</ul>
+<p><em>Returns:</em></p>
+<p>ModelInfo protobuf</p>
+<hr />
+<h3 id="modelserverservicergetpredictions"><a href="https://github.com/Abhijit-2592/model-server/tree/master/model_server/core.py#L102">ModelServerServicer.GetPredictions</a></h3>
+<pre><code class="python">GetPredictions(self, request, context)
+</code></pre>
+
+<p>Entrypoint for GetPredictions gRPC call. Uses the predict method defined in custom servable</p>
+<p><em>Arguments:</em></p>
+<ul>
+<li><strong>request</strong> (protobuf):  gRPC request containing input PredictRequest protobuf</li>
+<li><strong>context</strong> (protobuf):  gRPC context object</li>
+</ul>
+<p><em>Returns:</em></p>
+<p>PredictResponse protobuf</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/Abhijit-2592/model-server/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
