@@ -2,6 +2,29 @@
 
 A Pure `python-3` based flexible gRPC server for hosting Deep Learning, Machine Learning models trained on any framework!
 
+## Installation
+
+### Method 1:
+Installing from [python pip](https://pypi.org/project/model-server)
+
+`pip3 install model-server`
+
+### Method 2:
+Creating wheel from github
+
+1. clone the repository
+2. Run `bash create_pip_wheel_and_upload.sh`. This will prompt for userid and password. You can `ctrl-c` this
+3. Then install the created wheel
+
+### Method 3:
+
+No installation. Using the source code directly.
+
+If this is the case, you need to compile the protobufs. Run `bash compile_protobufs.sh`. Then add the project root to your `$PYTHONPATH`.
+
+### Note:
+Method 2 and 3 requires `libprotoc>=3.6.0`
+
 
 ## Why Model-Server?
 
