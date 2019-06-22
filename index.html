@@ -53,9 +53,15 @@
     <a class="current" href=".">Home</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#model-server">model-server</a></li>
+    <li class="toctree-l2"><a href="#model-server">Model-Server</a></li>
     
         <ul>
+        
+            <li><a class="toctree-l3" href="#why-model-server">Why Model-Server?</a></li>
+        
+            <li><a class="toctree-l3" href="#salient-features">Salient Features</a></li>
+        
+            <li><a class="toctree-l3" href="#getting-started">Getting started</a></li>
         
             <li><a class="toctree-l3" href="#work-in-progress">Work in Progress</a></li>
         
@@ -130,9 +136,143 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="model-server">model-server</h1>
+                <h1 id="model-server">Model-Server</h1>
+<p>A Pure <code>python-3</code> based flexible gRPC server for hosting Deep Learning, Machine Learning models trained on any framework!</p>
+<h2 id="why-model-server">Why Model-Server?</h2>
+<p>Taking deep learning models to production at scale is not a very straight forward process. If you are using Tensorflow then you have <a href="https://www.tensorflow.org/tfx/guide/serving">Tensorflow Serving</a>. But, if you are using other frameworks like <a href="https://pytorch.org/">PyTorch</a>, <a href="https://mxnet.apache.org/">MXNet</a>, <a href="https://scikit-learn.org/stable/">scikit-learn</a> etc. Taking your model to production is not very straight forward (Flask, Django and other ReST frameworks). Ideally you should be able to extend Tensorflow Serving to support models from other frameworks also but, this is extremly cumbersome! Thus, to bridge this gap we have <a href="https://abhijit-2592.github.io/model-server/">Model-Server</a>: A high performance framework neutral serving solution! <strong>The idea is:</strong> if you are able to train your model in <code>python</code> you should be  able to deploy at scale using pure <code>python</code></p>
+<h2 id="salient-features">Salient Features</h2>
+<p><a href="https://abhijit-2592.github.io/model-server/">Model-Server</a> is heavily inspired from <a href="https://www.tensorflow.org/tfx/guide/serving">Tensorflow Serving</a></p>
+<ul>
+<li><strong>Out of box client side batching support</strong></li>
+<li><strong>Pure python implementation</strong>: You don't need to fiddle around with C++ to have a scalable deployment solution</li>
+<li><strong>Framework neutral</strong>:  Using <a href="https://pytorch.org/">PyTorch</a>, <a href="https://mxnet.apache.org/">MXNet</a> etc? Don't worry! The solution is platform neutral. If you can use a framework to train in <code>python-3</code>, <a href="https://abhijit-2592.github.io/model-server/">Model-Server</a> can deploy it at scale</li>
+<li><strong>Single server for multi-framework and multi-models</strong>: You can host multiple models using the same framework or a mixture of multiple <a href="https://pytorch.org/">PyTorch</a>, <a href="https://mxnet.apache.org/">MXNet</a>, <a href="https://scikit-learn.org/stable/">scikit-learn</a> <a href="https://www.tensorflow.org/">Tensorflow</a> etc models!</li>
+</ul>
+<h2 id="getting-started">Getting started</h2>
+<p>The core of Model Server is a <code>Servable</code>. A servable is nothing but a <code>python class</code> containing your model's prediction definition which will be served by the <code>Model-Server</code>. All servables must inherit from <code>model_server.Servable</code> for the  <code>Model-Server</code> to serve it.</p>
+<p>To deploy your model to production with <code>Model Server</code>, you just have to write a single <code>python-3</code> file containing a <code>class</code> which inherits from <code>model_server.Servable</code> and has the following two methods:</p>
+<pre><code class="python">predict(self, input_array_dict)
+get_model_info(self, list_of_model_info_dict)
+</code></pre>
+
+<p>Now run the floowing to start the server in <code>5001</code> port</p>
+<pre><code class="bash">python -m model_server.runserver path_to_custom_servable_file.py
+</code></pre>
+
+<p>For more info on  command line arguments:</p>
+<pre><code class="bash">python -m model_server.runserver --help
+</code></pre>
+
+<h3 id="a-simple-example">A simple example</h3>
+<p>create a file called <code>simple_servable.py</code> with the following contents:</p>
+<pre><code class="python">
+import numpy as np
+from model_server import Servable
+
+
+class my_custom_servable(Servable):
+    def __init__(self, args):
+        # args contains values from ArgumentParser
+        # Thus you can pass any kwargs via command line and you get them here
+        pass
+
+    def predict(self, input_array_dict):
+        &quot;&quot;&quot;This method is responsible for the gRPC call GetPredictions().
+        All custom servables must define this method.
+
+        Arguments:
+            input_array_dict (dict): The PredictionRequest proto decoded as a python dictionary.
+
+        # example
+        input_array_dict = {
+                           &quot;input_tensor_name1&quot;: numpy array,
+                           &quot;input_tensor_name2&quot;: numpy array
+                            }
+
+        Returns:
+            A python dictionary with key (typically output name) and value as numpy array of predictions
+
+        # example
+        output = {
+                   &quot;output_tensor_name1&quot;: numpy array,
+                   &quot;output_tensor_name2&quot;: numpy array
+                  }
+        &quot;&quot;&quot;
+        print(input_array_dict)
+        return ({&quot;output_array1&quot;: np.array([100, 200]).astype(np.float32),
+                 &quot;output_array2&quot;: np.array([&quot;foo&quot;.encode(),&quot;bar&quot;.encode()]).astype(object),  # you can get and pass strings encoded as bytes also
+                 })
+
+    def get_model_info(self, list_of_model_info_dict):
+        &quot;&quot;&quot;This method which is responsible for the call GetModelInfo()
+
+        Arguments:
+            list_of_model_info_dict (list/tuple): A list containing model_info_dicts
+
+        Note:
+            model_info_dict contains the following keys:
+
+            {
+                &quot;name&quot;: &quot;model name as string&quot;
+                &quot;version&quot;: &quot;version as string&quot;
+                &quot;status&quot;: &quot;status string&quot;
+                &quot;misc&quot;: &quot;string with miscellaneous info&quot;
+            }
+
+        Returns:
+            list_of_model_info_dict (dict): containing the model and server info. This is similar to the function input
+        &quot;&quot;&quot;
+        return [{&quot;name&quot;: &quot;first_model&quot;, &quot;version&quot;: 1, &quot;status&quot;: &quot;up&quot;},
+                {&quot;name&quot;: &quot;second_model&quot;, &quot;version&quot;: 2, &quot;status&quot;: &quot;up&quot;, &quot;misc&quot;: &quot;Other miscellaneous details&quot;}]
+</code></pre>
+
+<p>Now run:</p>
+<pre><code class="bash">python -m model_server.runserver path/to/simple_servable.py
+</code></pre>
+
+<p>To start the gRPC server!</p>
+<p>Now let's define the client!</p>
+<pre><code class="python">import grpc
+import numpy as np
+
+from model_server import server_pb2, server_pb2_grpc
+from model_server.utils import create_tensor_proto
+from model_server.utils import create_predict_request
+from model_server.utils import create_array_from_proto
+from model_server.utils import create_model_info_proto
+
+channel = grpc.insecure_channel('localhost:5001')  # default port
+# create a stub (client)
+stub = server_pb2_grpc.ModelServerStub(channel)
+input_array_dict = {&quot;input1&quot;:create_tensor_proto(np.array([1,2]).astype(np.uint8)),
+                    &quot;input2&quot;:create_tensor_proto(np.array([[10.0,11.0], [12.0,13.0]]).astype(np.float32)),
+                    &quot;input3&quot;:create_tensor_proto(np.array([&quot;Hi&quot;.encode(), &quot;Hello&quot;.encode(), &quot;test&quot;.encode()]).astype(object))
+                   }
+# create the prediction request
+predict_request= create_predict_request(input_array_dict, name=&quot;simple_call&quot;)
+# make the call
+response = stub.GetPredictions(predict_request)
+
+# decode the response
+print(create_array_from_proto(response.outputs[&quot;output_array1&quot;]))
+
+# prints: array([100., 200.], dtype=float32)
+
+# Getting the model status
+
+model_info_proto = create_model_info_proto([])  # you can pass an empty list also
+response = stub.GetModelInfo(model_info_proto)
+
+</code></pre>
+
+<p>Look at <a href="https://github.com/Abhijit-2592/model-server/tree/master/examples">examples</a> folder for further examples</p>
 <h2 id="work-in-progress">Work in Progress</h2>
-<p>gRPC server for hosting Deep Learning models trained on any framework.</p>
+<ul>
+<li>Support server side batching and async calls.</li>
+<li>Provide a gRPC endpoint for <a href="https://en.wikipedia.org/wiki/Active_learning_(machine_learning)">Active Learning</a> so that you can plug in <code>Model Server</code> with your labeling tool and train on fly!</li>
+<li>Provide a ReST wrapper</li>
+</ul>
+<p>Feel free to file issues, provide suggestions and pull requests</p>
               
             </div>
           </div>
@@ -174,5 +314,5 @@
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-06-22 06:41:45
+Build Date UTC : 2019-06-22 08:35:04
 -->
