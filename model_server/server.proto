@@ -3,7 +3,9 @@ syntax = "proto3";
 package ModelServer;
 
 import "model_server/apis/predict.proto";
+import "model_server/protos/model_info.proto";
 
 service ModelServer {
     rpc GetPredictions(PredictRequest) returns (PredictResponse) {}
+    rpc GetModelsInfo(ModelsInfo) returns (ModelsInfo) {}
 }

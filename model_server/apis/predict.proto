@@ -11,6 +11,8 @@ message PredictRequest {
   string name = 1;
   // Input tensors.
   map<string, TensorProto> inputs = 2;
+  // Optional version.
+  string version = 3;
 }
 
 // Response for PredictRequest on successful run.
@@ -19,4 +21,6 @@ message PredictResponse {
   string name = 1;
   // Output tensors.
   map<string, TensorProto> outputs = 2;
+  // Optional version.
+  string version = 3;
 }

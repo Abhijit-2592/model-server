@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package ModelServer;
+
+message Info {
+    string version = 1;
+    string name = 2;
+    // model status string
+    string status = 3;
+    // any other miscellaneous details about the model
+    string misc = 4;
+};
+
+message ModelsInfo {
+    repeated Info info = 1;
+}

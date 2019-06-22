@@ -18,3 +18,6 @@ class InceptionV3Classifier(Servable):
             image_tensor = np.expand_dims(image_tensor, axis=0)
         predictions = self.model.predict(image_tensor)
         return {"prediction_scores": predictions}
+
+    def model_status(self, list_of_model_info_dict):
+        return [{"name": "InceptionV3", "version": 1, "status": "up", "misc": "This is an example"}]
