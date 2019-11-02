@@ -43,7 +43,15 @@ Takes in arbitrary optional arguments other than listed below and these are pass
     parser.add_argument("--max_workers",
                         help="maximum workers for gRPC server. Default 10",
                         type=int, metavar='', default=10
-                        )    # listen on port 50051
+                        )
+    parser.add_argument("--grpc_max_send_message_length",
+                        help="maximum size of message sent by gRPC server. Def 4MB",
+                        type=int, metavar='', default=4 * 1024 * 1024
+                        )
+    parser.add_argument("--grpc_max_receive_message_length",
+                        help="maximum size of message sent by gRPC server. Def 4MB",
+                        type=int, metavar='', default=4 * 1024 * 1024
+                        )
 
     # Get arbitrary arguments
     parsed, unknown = parser.parse_known_args()
@@ -54,9 +62,13 @@ Takes in arbitrary optional arguments other than listed below and these are pass
     args = parser.parse_args()
 
     # create a gRPC server
+    options = [('grpc.max_send_message_length', args.grpc_max_send_message_length),
+               ('grpc.max_receive_message_length', args.grpc_max_receive_message_length)]
+
     custom_servable_class = _get_custom_servable_class(args.custom_servable_path)
     custom_servable_object = custom_servable_class(args)
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=args.max_workers))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=args.max_workers),
+                         options=options)
 
     server_pb2_grpc.add_ModelServerServicer_to_server(ModelServerServicer(custom_servable_object=custom_servable_object),
                                                       server)
