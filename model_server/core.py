@@ -1,4 +1,5 @@
 import abc
+import time
 from . import server_pb2_grpc
 
 from .utils import create_tensor_proto, create_array_from_proto
@@ -99,6 +100,9 @@ class ModelServerServicer(server_pb2_grpc.ModelServerServicer):
         """
         self.custom_servable_object = custom_servable_object
 
+        # Metrics
+        self._inference_time = 0
+
     def GetPredictions(self, request, context):
         """Entrypoint for GetPredictions gRPC call. Uses the predict method defined in custom servable
 
@@ -109,8 +113,10 @@ class ModelServerServicer(server_pb2_grpc.ModelServerServicer):
         Returns:
             PredictResponse protobuf
         """
+        start_time = time.time()
         input_array_dict = self.custom_servable_object._get_input_array_dict(request)
         output_array_dict = self.custom_servable_object.predict(input_array_dict)
+        self._inference_time = int(round((time.time() - start_time) * 1e6))
         return self.custom_servable_object._make_predict_response(output_array_dict)
 
     def GetModelInfo(self, request, context):
