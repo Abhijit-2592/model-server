@@ -9,6 +9,17 @@ Installing from [python pip](https://pypi.org/project/model-server)
 
 `pip3 install model-server`
 
+If you hit errors with gRPC in M2 Macbook uninstall and reinstall protobuf using conda
+
+```bash
+pip uninstall grpcio
+conda install grpcio
+```
+
+If you hit the following error `google not found`. Install protobuf using conda (For somereason it doesn't work with pip on M2 macbooks)
+`conda install protobuf`
+
+
 ### Method 2:
 Creating wheel from github
 
