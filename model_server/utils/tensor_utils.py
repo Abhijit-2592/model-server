@@ -1,4 +1,5 @@
 import numpy as np
+
 from ..protos import tensor_pb2
 
 
@@ -25,7 +26,9 @@ def create_tensor_proto(array, shape=None, dtype=None, name=None):
         numpy handles variable length strings in this way
     """
     if not isinstance(array, np.ndarray):
-        raise TypeError("array must be of type np.ndarray but, got {}".format(type(array)))
+        raise TypeError(
+            "array must be of type np.ndarray but, got {}".format(type(array))
+        )
     if not shape:
         shape = array.shape
     else:
@@ -38,16 +41,22 @@ def create_tensor_proto(array, shape=None, dtype=None, name=None):
         array = array.astype(np.dtype(dtype))
 
     if dtype.upper() not in tensor_pb2.DType.keys():
-        raise TypeError("Only {} datatypes are supported. But got a datatype {}".format(tensor_pb2.DType.keys(), dtype.upper()))
+        raise TypeError(
+            "Only {} datatypes are supported. But got a datatype {}".format(
+                tensor_pb2.DType.keys(), dtype.upper()
+            )
+        )
 
     # {"float32":0, "uint8": 4} etc
-    dtype_dict = {k.lower(): v for k, v in zip(tensor_pb2.DType.keys(), tensor_pb2.DType.values())}
+    dtype_dict = {
+        k.lower(): v for k, v in zip(tensor_pb2.DType.keys(), tensor_pb2.DType.values())
+    }
     tensor_proto = tensor_pb2.TensorProto()
     for dim in shape:
         tensor_shape = tensor_proto.tensor_shape.add()
         tensor_shape.size = dim
     if dtype not in ["string", "object"]:
-        tensor_proto.tensor_content = array.tostring()
+        tensor_proto.tensor_content = array.tobytes()
     else:
         string_list = []
         for string_val in array.flatten():
@@ -56,7 +65,11 @@ def create_tensor_proto(array, shape=None, dtype=None, name=None):
             elif isinstance(string_val, bytes):
                 string_list.append(string_val)
             else:
-                raise TypeError("string elements in array must be of type str or bytes but got {}".format(type(string_val)))
+                raise TypeError(
+                    "string elements in array must be of type str or bytes but got {}".format(
+                        type(string_val)
+                    )
+                )
 
         tensor_proto.string_val.extend(string_list)
     if name:
@@ -82,12 +95,18 @@ def create_array_from_proto(tensor_proto):
         numpy handles variable length strings in this way
     """
     if not isinstance(tensor_proto, tensor_pb2.TensorProto):
-        raise TypeError("tensor_proto must be a TensorProto but got {}".format(type(tensor_proto)))
+        raise TypeError(
+            "tensor_proto must be a TensorProto but got {}".format(type(tensor_proto))
+        )
     shape = [d.size for d in tensor_proto.tensor_shape]
-    dtype_reversed_dict = {v: k.lower() for k, v in zip(tensor_pb2.DType.keys(), tensor_pb2.DType.values())}
+    dtype_reversed_dict = {
+        v: k.lower() for k, v in zip(tensor_pb2.DType.keys(), tensor_pb2.DType.values())
+    }
     dtype = dtype_reversed_dict[int(tensor_proto.dtype)]
     if dtype not in ["string", "object"]:
-        array = np.frombuffer(tensor_proto.tensor_content, dtype=np.dtype(dtype)).reshape(shape)
+        array = np.frombuffer(
+            tensor_proto.tensor_content, dtype=np.dtype(dtype)
+        ).reshape(shape)
     else:
         if dtype == "string":
             dtype = "object"

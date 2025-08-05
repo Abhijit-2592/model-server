@@ -19,9 +19,13 @@ def create_predict_request(input_tensorproto_dict, name=None, version=None):
     if version:
         predict_request.version = str(version)
     for key, value in input_tensorproto_dict.items():
-        assert isinstance(value, tensor_pb2.TensorProto), "The dictionary must contain TensorProto but got {}".format(type(value))
-        assert isinstance(key, str), "They dictionary key must be a string but got {}".format(key)
-        predict_request.inputs['{}'.format(key)].CopyFrom(value)
+        assert isinstance(
+            value, tensor_pb2.TensorProto
+        ), "The dictionary must contain TensorProto but got {}".format(type(value))
+        assert isinstance(
+            key, str
+        ), "They dictionary key must be a string but got {}".format(key)
+        predict_request.inputs["{}".format(key)].CopyFrom(value)
     return predict_request
 
 
@@ -42,7 +46,11 @@ def create_predict_response(output_tensorproto_dict, name=None, version=None):
     if version:
         predict_response.version = str(version)
     for key, value in output_tensorproto_dict.items():
-        assert isinstance(value, tensor_pb2.TensorProto), "The dictionary must contain TensorProto but got {}".format(type(value))
-        assert isinstance(key, str), "They dictionary key must be a string but got {}".format(key)
-        predict_response.outputs['{}'.format(key)].CopyFrom(value)
+        assert isinstance(
+            value, tensor_pb2.TensorProto
+        ), "The dictionary must contain TensorProto but got {}".format(type(value))
+        assert isinstance(
+            key, str
+        ), "They dictionary key must be a string but got {}".format(key)
+        predict_response.outputs["{}".format(key)].CopyFrom(value)
     return predict_response

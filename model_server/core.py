@@ -1,10 +1,14 @@
 import abc
 import time
-from . import server_pb2_grpc
 
-from .utils import create_tensor_proto, create_array_from_proto
-from .utils import create_predict_response
-from .utils import decode_model_info_proto, create_model_info_proto
+from . import server_pb2_grpc
+from .utils import (
+    create_array_from_proto,
+    create_model_info_proto,
+    create_predict_response,
+    create_tensor_proto,
+    decode_model_info_proto,
+)
 
 
 class Servable(abc.ABC):
@@ -32,7 +36,9 @@ class Servable(abc.ABC):
         tensor_dict = {}
         for key, array in output_array_dict.items():
             tensor_dict[str(key)] = create_tensor_proto(array)
-        predict_response = create_predict_response(tensor_dict, name=self.name, version=self.version)
+        predict_response = create_predict_response(
+            tensor_dict, name=self.name, version=self.version
+        )
         return predict_response
 
     @abc.abstractmethod
@@ -130,5 +136,7 @@ class ModelServerServicer(server_pb2_grpc.ModelServerServicer):
             ModelInfo protobuf
         """
         request_list_of_model_info_dict = decode_model_info_proto(request)
-        response_list_of_model_info_dict = self.custom_servable_object.get_model_info(request_list_of_model_info_dict)
+        response_list_of_model_info_dict = self.custom_servable_object.get_model_info(
+            request_list_of_model_info_dict
+        )
         return create_model_info_proto(response_list_of_model_info_dict)

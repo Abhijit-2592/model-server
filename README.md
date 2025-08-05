@@ -4,38 +4,26 @@ A Pure `python-3` based flexible gRPC server for hosting Deep Learning, Machine 
 
 ## Installation
 
-### Method 1:
-Installing from [python pip](https://pypi.org/project/model-server)
-
-`pip3 install model-server`
-
-If you hit errors with gRPC in M2 Macbook uninstall and reinstall protobuf using conda
+### Directly use model-server as a library
 
 ```bash
-pip uninstall grpcio
-conda install grpcio
+pip install model-server
 ```
 
-If you hit the following error `google not found`. Install protobuf using conda (For somereason it doesn't work with pip on M2 macbooks)
-`conda install protobuf`
+### Developing/Improving Model Server
+The project uses `uv` as the package manager
 
+```bash
 
-### Method 2:
-Creating wheel from github
+git clone https://abhijit-2592.github.io/model-server/
 
-1. clone the repository
-2. Run `bash create_pip_wheel_and_upload.sh`. This will prompt for userid and password. You can `ctrl-c` this
-3. Then install the created wheel
+# Sync in dev mode
+uv sync --dev
 
-### Method 3:
+# Install in editable mode
+uv pip install -e .
 
-No installation. Using the source code directly.
-
-If this is the case, you need to compile the protobufs. Run `bash compile_protobufs.sh`. Then add the project root to your `$PYTHONPATH`.
-
-### Note:
-Method 2 and 3 requires `libprotoc>=3.6.0`
-
+```
 
 ## Why Model-Server?
 
