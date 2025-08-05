@@ -1,5 +1,6 @@
-import tensorflow as tf
 import numpy as np
+import tensorflow as tf
+
 from model_server import Servable
 
 
@@ -17,7 +18,9 @@ class MultipleModels(Servable):
 
     def __init__(self, args):
         def func1():
-            return tf.keras.applications.InceptionV3(include_top=True, weights="imagenet")
+            return tf.keras.applications.InceptionV3(
+                include_top=True, weights="imagenet"
+            )
 
         def func2():
             return tf.keras.applications.VGG16(include_top=True, weights="imagenet")
@@ -52,9 +55,20 @@ class MultipleModels(Servable):
 
     def get_model_info(self, list_of_model_info_dict):
         if len(list_of_model_info_dict) == 0:
-            return [{"name": "InceptionV3", "version": 1, "status": "up", "misc": "This is a test"},
-                    {"name": "VGG16", "version": 1, "status": "up", "misc": "This is a test"}
-                    ]
+            return [
+                {
+                    "name": "InceptionV3",
+                    "version": 1,
+                    "status": "up",
+                    "misc": "This is a test",
+                },
+                {
+                    "name": "VGG16",
+                    "version": 1,
+                    "status": "up",
+                    "misc": "This is a test",
+                },
+            ]
         else:
             response_list = []
             for model_info_dict in list_of_model_info_dict:

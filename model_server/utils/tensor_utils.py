@@ -1,4 +1,5 @@
 import numpy as np
+
 from ..protos import tensor_pb2
 
 
