@@ -1,0 +1,86 @@
+loaders:
+  - type: python
+    search_path: [../]
+
+processors:
+  - type: filter
+  - type: google
+  - type: crossref
+  - type: custom_doc_processor.DocProcessor
+
+hooks:
+  pre-render:
+    - mkdir -p sources && cp ../README.md sources/index.md
+
+renderer:
+  type: mkdocs
+  markdown:
+    # render_toc: true
+    source_linker:
+      type: github
+      repo: Abhijit-2592/model-server
+      use_branch: true
+    source_position: before signature
+    source_format: |
+      <span style="float: right; font-size: 90%;">
+      [[view source]]({url})
+      </span>
+  pages:
+    - title: Home
+      name: index
+      source: sources/index.md
+    - title: API Reference
+      name: api_reference
+      children:
+        - title: model_server.utils
+          name: utils
+          contents: [model_server.utils.*]
+        - title: model_server.core
+          name: core
+          contents: [model_server.core.*]
+
+  mkdocs_config:
+    site_name: model-server Documentation
+    site_description: A Pure python-3 based flexible gRPC server for hosting Deep Learning, Machine Learning models trained on any framework!
+    repo_name: model-server
+    repo_url: https://github.com/Abhijit-2592/model-server
+    plugins:
+      - search
+    markdown_extensions:
+      - pymdownx.superfences # Enables syntax highlighting for Python and other languages
+      - pymdownx.highlight:
+          linenums: true # Adds line numbers to code blocks
+          anchor_linenums: true # Allows clicking on line numbers
+      - pymdownx.inlinehilite # Enables inline code highlighting
+      - pymdownx.snippets # Supports reusable code snippets
+      - pymdownx.tabbed:
+          alternate_style: true # Enables tabbed content (useful for multi-language docs)
+    theme:
+      name: material
+      palette:
+        - media: "(prefers-color-scheme: light)"
+          scheme: default
+          primary: blue
+          accent: cyan
+          toggle:
+            icon: material/weather-night
+            name: Switch to dark mode
+        - media: "(prefers-color-scheme: dark)"
+          scheme: slate
+          primary: blue
+          accent: cyan
+          toggle:
+            icon: material/white-balance-sunny
+            name: Switch to light mode
+      features:
+        - navigation.tabs
+        - navigation.expand
+        - navigation.top
+        - search.suggest
+        - search.highlight
+        - search.share
+        - content.code.copy
+        - content.code.annotate
+      font:
+        text: Roboto
+        code: Roboto Mono
