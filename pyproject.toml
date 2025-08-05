@@ -1,0 +1,19 @@
+[project]
+name = "model-server"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["grpcio>=1.74.0", "grpcio-tools>=1.74.0", "numpy>=2.3.2"]
+
+[project.optional-dependencies]
+dev = ["ipykernel>=6.29.5", "pre-commit", "pytest", "black", "isort"]
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+
+[tool.setuptools]
+packages = ["model_server"]
