@@ -1,4 +1,4 @@
-__version__ = "1.2"
+__version__ = "1.3"
 __author__ = "Abhijit Balaji"
 __title__ = "model-server"
 __summary__ = "A Pure `python-3` based flexible gRPC server for hosting Deep Learning, Machine Learning models trained on any framework!"
