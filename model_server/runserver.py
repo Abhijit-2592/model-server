@@ -56,17 +56,17 @@ Takes in arbitrary optional arguments other than listed below and these are pass
     )
     parser.add_argument(
         "--grpc_max_send_message_length",
-        help="maximum size of message sent by gRPC server. Def 4MB",
+        help="maximum size of message sent by gRPC server. Def 100 MB",
         type=int,
         metavar="",
-        default=4 * 1024 * 1024,
+        default=100 * 1024 * 1024,
     )
     parser.add_argument(
         "--grpc_max_receive_message_length",
-        help="maximum size of message sent by gRPC server. Def 4MB",
+        help="maximum size of message sent by gRPC server. Def 100 MB",
         type=int,
         metavar="",
-        default=4 * 1024 * 1024,
+        default=100 * 1024 * 1024,
     )
 
     # Get arbitrary arguments

@@ -3,9 +3,11 @@ repos:
     rev: 24.3.0
     hooks:
       - id: black
+        exclude: .*_pb2.*\.py
 
   - repo: https://github.com/pycqa/isort
     rev: 6.0.1
     hooks:
       - id: isort
         name: isort (python)
+        exclude: .*_pb2.*\.py
