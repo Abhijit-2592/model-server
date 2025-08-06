@@ -12,8 +12,9 @@ line-length = 88
 [tool.isort]
 profile = "black"
 
-[tool.setuptools]
-packages = ["model_server"]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["model_server*"]
 
 [dependency-groups]
 dev = [
